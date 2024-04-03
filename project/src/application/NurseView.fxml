@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NurseController">
+   <children>
+      <TextArea id="healthIssuesText" fx:id="healthIssuesText" layoutX="320.0" layoutY="127.0" prefHeight="131.0" prefWidth="235.0" />
+      <TextField id="fullNameInput" fx:id="nameInput" layoutX="50.0" layoutY="119.0" prefHeight="35.0" prefWidth="235.0" promptText="Full name" />
+      <TextField id="heightInput" fx:id="heightInput" layoutX="50.0" layoutY="180.0" prefHeight="35.0" prefWidth="235.0" promptText="Height (cm)" />
+      <TextField id="tempInput" fx:id="tempInput" layoutX="50.0" layoutY="307.0" prefHeight="35.0" prefWidth="235.0" promptText="Body Temperature (F*)" />
+      <TextField id="weightInput" fx:id="weightInput" layoutX="50.0" layoutY="241.0" prefHeight="35.0" prefWidth="235.0" promptText="Weight (lbs)" />
+      <TextField id="bpInput" fx:id="bpInput" layoutX="50.0" layoutY="368.0" prefHeight="35.0" prefWidth="235.0" promptText="Blood Pressure (SYS/DIA)" />
+      <Button id="checkinSubmit" fx:id="checkinSubmitButton" layoutX="50.0" layoutY="471.0" mnemonicParsing="false" onAction="#submitCheckin" text="Submit" />
+      <Button id="checkinClear" fx:id="checkinClearButton" layoutX="135.0" layoutY="471.0" mnemonicParsing="false" onAction="#clearCheckin" text="Clear" />
+      <CheckBox fx:id="patientOverTwelveCheckbox" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" text="Patient over 12?">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <Label layoutX="50.0" layoutY="56.0" text="Check-In" textFill="DODGERBLUE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="323.0" layoutY="56.0" text="History" textFill="DODGERBLUE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="609.0" layoutY="56.0" text="Specifics" textFill="DODGERBLUE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField id="allergiesInput" fx:id="allergiesInput" alignment="TOP_LEFT" layoutX="607.0" layoutY="119.0" prefHeight="147.0" prefWidth="235.0" promptText="Known Allergies" />
+      <TextField id="concernsInput" fx:id="concernsInput" alignment="TOP_LEFT" layoutX="607.0" layoutY="307.0" prefHeight="147.0" prefWidth="235.0" promptText="Health Concerns" />
+      <Button id="specificSubmit" fx:id="specificsSubmit" layoutX="609.0" layoutY="471.0" mnemonicParsing="false" onAction="#submitSpecifics" text="Submit" />
+      <Button id="specificClear" fx:id="specificsClear" layoutX="703.0" layoutY="471.0" mnemonicParsing="false" onAction="#clearSpecifics" text="Clear" />
+      <TextArea id="medicationsText" fx:id="medicationsText" layoutX="320.0" layoutY="289.0" prefHeight="131.0" prefWidth="235.0" />
+      <TextArea id="immunizationText" fx:id="immunizationText" layoutX="320.0" layoutY="454.0" prefHeight="131.0" prefWidth="235.0" />
+      <Label layoutX="391.0" layoutY="102.0" text="Health Issues">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="355.0" layoutY="264.0" text="Prescribed Medications">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="389.0" layoutY="428.0" text="Immunization">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="63.0" layoutX="-8.0" layoutY="-17.0" stroke="BLACK" strokeType="INSIDE" width="883.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="408.0" layoutY="13.0" prefHeight="27.0" prefWidth="338.0" text="Welcome" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button id="logoutButton" layoutX="788.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
+      <Label layoutX="50.0" layoutY="13.0" prefHeight="27.0" prefWidth="338.0" text="Nurse View" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
