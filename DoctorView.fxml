@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorController">
+    <children>
+        <Label text="Doctor Dashboard" />
+        <TableView fx:id="appointmentsTable">
+            <columns>
+                <TableColumn text="Patient Name" />
+                <TableColumn text="Appointment Date" />
+                <TableColumn text="Details" />
+            </columns>
+        </TableView>
+        <!-- Additional UI components as needed -->
+    </children>
+</VBox>
