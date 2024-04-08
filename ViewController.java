@@ -76,10 +76,12 @@ public class ViewController {
     @FXML
     void patientView(ActionEvent event) {
     	try {
-    		Parent root = FXMLLoader.load(getClass().getResource("PatientView.fxml"));
-    		Scene scene = new Scene(root);
-		
-    		primaryStage.setTitle("Nurse View");
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientView.fxml"));
+			Parent root = loader.load();
+			PatientController controller = loader.getController();
+			controller.setPrimaryStage(primaryStage);
+			Scene scene = new Scene(root);
+    		primaryStage.setTitle("Patient View");
     		primaryStage.setScene(scene);
     		primaryStage.show();
     	} catch (IOException e) {
