@@ -10,5 +10,6 @@
       <Button fx:id="patientViewButton" layoutX="320.0" layoutY="300.0" mnemonicParsing="false" onAction="#patientView" prefHeight="64.0" prefWidth="232.0" text="Patient View" />
       <Button fx:id="doctorViewButton" layoutX="322.0" layoutY="412.0" mnemonicParsing="false" onAction="#doctorView" prefHeight="64.0" prefWidth="232.0" text="Doctor View" />
       <Button fx:id="loginViewButton" layoutX="320.0" layoutY="88.0" mnemonicParsing="false" onAction="#loginView" prefHeight="64.0" prefWidth="232.0" text="Login View" />
+      <Button fx:id="patientCreationViewButton" layoutX="322.0" layoutY="500.0" mnemonicParsing="false" onAction="#patientCreationView" prefHeight="64.0" prefWidth="232.0" text="Patient Creation View" />
    </children>
 </Pane>

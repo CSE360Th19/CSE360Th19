@@ -26,6 +26,9 @@ public class MainController {
 
     @FXML
     private Button patientViewButton;
+    
+    @FXML
+    private Button patientCreationViewButton;
 
   
     @FXML
@@ -77,6 +80,19 @@ public class MainController {
     		e.printStackTrace();
     	}
     	
+    }
+    
+    @FXML
+    void patientCreationView(ActionEvent event) throws IOException {
+    	/*
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientCreationView.fxml"));
+        Parent root = loader.load();
+        NurseController nurseController = loader.getController();
+        nurseController.setPrimaryStage(primaryStage);
+
+        primaryStage.getScene().setRoot(root);
+        primaryStage.setTitle("Patient Creation View"); 
+        */
     }
     
     
