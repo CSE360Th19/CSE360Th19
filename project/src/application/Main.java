@@ -1,5 +1,7 @@
 package application;
 	
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 // it should start by displaying login view
 
 public class Main extends Application {
+	private static final String FOLDER_NAME = "user_info";
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -19,8 +22,14 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("navView.fxml"));
 			Parent root = loader.load();
 			
-			ViewController viewController = loader.getController();
+			MainController viewController = loader.getController();
 			viewController.setStage(primaryStage);
+			
+			// Create database folder if it doesn't exist
+	        File folder = new File(FOLDER_NAME);
+	        if (!folder.exists()) {
+	            folder.mkdirs(); 
+	        }
 			
 			Scene scene = new Scene(root);
 			primaryStage.setTitle("Nav View");

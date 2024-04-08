@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <Button fx:id="nurseViewButton" layoutX="320.0" layoutY="194.0" mnemonicParsing="false" onAction="#nurseView" prefHeight="64.0" prefWidth="232.0" text="Nurse View" />
       <Button fx:id="patientViewButton" layoutX="320.0" layoutY="300.0" mnemonicParsing="false" onAction="#patientView" prefHeight="64.0" prefWidth="232.0" text="Patient View" />
