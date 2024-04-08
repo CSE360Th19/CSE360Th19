@@ -68,6 +68,8 @@ public class MainController {
             Parent root = loader.load();
     		PatientController patientController = loader.getController();
     		patientController.setPrimaryStage(primaryStage);
+    		//patientController.setPatientId(); SET PATIENTS ID TO VALUE IN LOGIN IF ITS SUCCESSFUL!
+    		
 		
     		primaryStage.getScene().setRoot(root);
             primaryStage.setTitle("Patient View");
