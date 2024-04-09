@@ -1,3 +1,5 @@
+package application;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -6,12 +8,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class DoctorController {
+	private Stage primaryStage;
+	public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+	
     @FXML
     private TableView<Appointment> appointmentsTable;
 
@@ -101,20 +111,14 @@ public class DoctorController {
 
     // Adding a logout action
     @FXML
-    private void handleLogout(ActionEvent event) {
-        try {
-            // Assuming you have a "Login.fxml" that is the login view
-            Parent loginView = FXMLLoader.load(getClass().getResource("Login.fxml"));
-            Scene loginScene = new Scene(loginView);
+    void logout(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("NavView.fxml"));
+        Parent root = loader.load();
+        MainController navController = loader.getController();
+        navController.setPrimaryStage(primaryStage);
 
-            // Getting the current window and setting the scene to login
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(loginScene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Handle exceptions, possibly alert the user
-        }
+        primaryStage.getScene().setRoot(root);
+        primaryStage.setTitle("Navigation View");
     }
 
     @FXML
