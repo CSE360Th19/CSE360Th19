@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DoctorController">
     <children>
-        <Label text="Doctor Dashboard" />
-        <TableView fx:id="appointmentsTable">
+        <Label layoutX="50.0" layoutY="13.0" prefHeight="27.0" prefWidth="338.0" text="Doctor Dashboard" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Button layoutX="788.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="63.0" layoutX="-8.0" layoutY="-17.0" stroke="BLACK" strokeType="INSIDE" width="883.0" />
+        <TableView fx:id="appointmentsTable" layoutX="50.0" layoutY="100.0" prefHeight="200.0" prefWidth="774.0" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn text="Patient Name" />
-                <TableColumn text="Appointment Date" />
-                <TableColumn text="Details" />
+                <TableColumn fx:id="patientNameColumn" text="Patient Name" minWidth="200"/>
+                <TableColumn fx:id="appointmentDateColumn" text="Appointment Date" minWidth="200"/>
+                <TableColumn fx:id="detailsColumn" text="Details" minWidth="200"/>
             </columns>
         </TableView>
-        <!-- Additional UI components as needed -->
+        <TextArea fx:id="patientDetailsArea" layoutX="50.0" layoutY="310.0" prefHeight="100.0" prefWidth="774.0" promptText="Patient Details" editable="false"/>
+        <TextField fx:id="searchField" layoutX="50.0" layoutY="420.0" prefWidth="300.0" promptText="Search Patient Records" onAction="#handleSearch"/>
+        <HBox layoutX="50.0" layoutY="460.0" spacing="10">
+            <Button text="View Patient Details" onAction="#handleViewPatientDetails"/>
+            <Button text="Update Appointment" onAction="#handleUpdateAppointment"/>
+            <Button text="Cancel Appointment" onAction="#handleCancelAppointment"/>
+            <Button text="Prescribe Medication" onAction="#handlePrescribeMedication"/>
+            <Button text="View Medical History" onAction="#handleViewMedicalHistory"/>
+        </HBox>
     </children>
-</VBox>
+</Pane>
