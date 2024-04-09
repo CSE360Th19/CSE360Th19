@@ -225,6 +225,7 @@ public class NurseController {
     }
     
     
+    
     private String generateUniquePatientId() {
         // Generate a random 5-digit number for patient ID
         Random random = new Random();

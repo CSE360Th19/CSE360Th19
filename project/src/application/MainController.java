@@ -48,8 +48,14 @@ public class MainController {
     }
 
     @FXML
-    void loginView(ActionEvent event) {
-    	//switchScene("NavView.fxml", "NavView");
+    void loginView(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
+        Parent root = loader.load();
+        LoginController loginController = loader.getController();
+        loginController.setPrimaryStage(primaryStage);
+
+        primaryStage.getScene().setRoot(root);
+        primaryStage.setTitle("Login View");
     }
 
     @FXML
