@@ -72,7 +72,7 @@
       <Button fx:id="refreshButton" layoutX="231.0" layoutY="328.0" mnemonicParsing="false" onAction="#loadAppointments" text="Refresh" />
       <VBox layoutX="83.0" layoutY="355.0" prefHeight="231.0" prefWidth="779.0" style="-fx-background-color: grey;">
          <children>
-            <HBox prefHeight="27.0" prefWidth="779.0" style="-fx-background-color: lightgrey;">
+            <HBox prefHeight="27.0" prefWidth="779.0" style="-fx-background-color: lightgrey; -fx-border-color: black;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0" text="Doctor">
                      <font>
@@ -91,7 +91,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="appointment1" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white;">
+            <HBox fx:id="appointment1" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
                <children>
                   <Label fx:id="appointment1doctor" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0">
                      <opaqueInsets>
@@ -110,10 +110,10 @@
                      </padding>
                   </Label>
                   <Button fx:id="appointment1button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment1remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
+                  <Button fx:id="appointment1remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
                </children>
             </HBox>
-            <HBox fx:id="appointment2" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white;">
+            <HBox fx:id="appointment2" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
                <children>
                   <Label fx:id="appointment2doctor" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0">
                      <opaqueInsets>
@@ -132,10 +132,10 @@
                      </padding>
                   </Label>
                   <Button fx:id="appointment2button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment2remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
+                  <Button fx:id="appointment2remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment"  />
                </children>
             </HBox>
-            <HBox fx:id="appointment3" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white;">
+            <HBox fx:id="appointment3" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
                <children>
                   <Label fx:id="appointment3doctor" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0">
                      <opaqueInsets>
@@ -154,10 +154,10 @@
                      </padding>
                   </Label>
                   <Button fx:id="appointment3button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment3remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
+                  <Button fx:id="appointment3remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
                </children>
             </HBox>
-            <HBox fx:id="appointment4" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white;">
+            <HBox fx:id="appointment4" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
                <children>
                   <Label fx:id="appointment4doctor" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0">
                      <opaqueInsets>
@@ -176,10 +176,10 @@
                      </padding>
                   </Label>
                   <Button fx:id="appointment4button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment4remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
+                  <Button fx:id="appointment4remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
                </children>
             </HBox>
-            <HBox fx:id="appointment5" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white;">
+            <HBox fx:id="appointment5" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
                <children>
                   <Label fx:id="appointment5doctor" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="238.0">
                      <opaqueInsets>
@@ -198,7 +198,7 @@
                      </padding>
                   </Label>
                   <Button fx:id="appointment5button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment5remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
+                  <Button fx:id="appointment5remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
                </children>
             </HBox>
          </children>

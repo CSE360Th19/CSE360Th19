@@ -1,8 +1,11 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -101,25 +104,41 @@ public class NurseController {
 
     @FXML
     void submitCheckin(ActionEvent event) {
-        if (checkFieldsNotEmpty(nameInput, heightInput, weightInput, tempInput, bpInput) || checkFieldsNotEmpty(idInput, heightInput, weightInput, tempInput, bpInput)) {
+        if (checkFieldsNotEmpty(idInput, nameInput, heightInput, weightInput, tempInput, bpInput)) {
             // All fields are filled
-        	specificsSubmit.setDisable(false);
+            specificsSubmit.setDisable(false);
             specificsClear.setDisable(false);
-            
-            ArrayList<String> data = new ArrayList<>();
-            data.add(nameInput.getText());
-            data.add(heightInput.getText());
-            data.add(weightInput.getText());
-            data.add(tempInput.getText());
-            data.add(bpInput.getText());
-            String patientAgeGroup = patientOverTwelveCheckbox.isSelected() ? "Over 12" : "Under 12";
-            data.add(patientAgeGroup);
 
-            System.out.println("Check-in data: " + data);
+            String patientId = idInput.getText();
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
+            System.out.println(formattedDate);
+            String filePath = "user_info/patients/" + patientId + "/appointments/" + formattedDate + ".txt";
+
+            if (appointmentFileExists(filePath)) {
+                ArrayList<String> data = new ArrayList<>();
+                data.add(nameInput.getText());
+                data.add(heightInput.getText());
+                data.add(weightInput.getText());
+                data.add(tempInput.getText());
+                data.add(bpInput.getText());
+                String patientAgeGroup = patientOverTwelveCheckbox.isSelected() ? "Over 12" : "Under 12";
+                data.add(patientAgeGroup);
+
+                System.out.println("Check-in data: " + data);
+            } else {
+                showErrorDialog("Patient does not have an appointment for today.");
+                System.out.println("Patient does not have an appointment for today.");
+            }
         } else {
-        	showErrorDialog("Not all check-in fields are filled.");
+            showErrorDialog("Not all check-in fields are filled.");
             System.out.println("Not all check-in fields are filled.");
         }
+    }
+    private boolean appointmentFileExists(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
     }
 
     @FXML
@@ -131,22 +150,8 @@ public class NurseController {
             data.add(concernsInput.getText());
 
             System.out.println("Specifics data: " + data);
-            if (newPatientCheckbox.isSelected()) {
-                // Generate a unique patient ID
-                String patientId = generateUniquePatientId();
-                idInput.setText(patientId);
-                
-                // Show the patient ID label
-                patientIdLabel.setVisible(true);
-                patientIdLabel.setText("Patient ID Created: " + patientId);
-                
-                createPatientDirectory(patientId);
-                createPatientInfoFile(patientId, nameInput.getText());
-                createCheckinDataToFile(patientId);
-            }
-            else {
-            	createCheckinDataToFile(idInput.getText());
-            }
+            String patientId = idInput.getText();
+            createCheckinDataToFile(patientId);
             
         } else {
         	showErrorDialog("Not all specifics fields are filled.");
@@ -195,96 +200,49 @@ public class NurseController {
     
     private void createCheckinDataToFile(String patientId) {
         try {
-            // Create or append to the check-in data file
-            File file = new File("user_info/patients/" + patientId + "/checkin_data.txt");
-            FileWriter writer = new FileWriter(file, true);
+            // Get current date
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = currentDate.format(formatter);
 
-            // Get current date and time
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = now.format(formatter);
+            File file = new File("user_info/patients/" + patientId + "/appointments/" + date + ".txt");
+            
 
-            // Write check-in data to file
-            writer.write("Date: " + formattedDateTime + "\n");
-            writer.write("Height: " + heightInput.getText() + "\n");
-            writer.write("Weight: " + weightInput.getText() + "\n");
-            writer.write("Temperature: " + tempInput.getText() + "\n");
-            writer.write("Blood Pressure: " + bpInput.getText() + "\n");
-            writer.write("Patient Age Group: " + (patientOverTwelveCheckbox.isSelected() ? "Over 12" : "Under 12") + "\n");
-            writer.write("Allergies: " + allergiesInput.getText() + "\n");
-            writer.write("Concerns: " + concernsInput.getText() + "\n");
-            writer.write("----------------------------------------------------\n");
-
-            // Close the writer
-            writer.close();
+            if (file.exists()) {
+                // Append the existing content, excluding "Date" and "Doctor" lines
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                String doctorLine = "Doctor: N/A" + "\n";
+                while ((line = reader.readLine()) != null) {
+                	System.out.println(line);
+                    if (line.startsWith("Doctor:")) {
+                    	doctorLine = line;
+                    }
+                }
+                FileWriter writer = new FileWriter(file); // Overwrite mode
+                reader.close();
+                System.out.println(doctorLine);
+                writer.write("Date: " + date + "\n");
+                writer.write(doctorLine + "\n");
+                writer.write("Height: " + heightInput.getText() + "\n");
+                writer.write("Weight: " + weightInput.getText() + "\n");
+                writer.write("Temperature: " + tempInput.getText() + "\n");
+                writer.write("Blood Pressure: " + bpInput.getText() + "\n");
+                writer.write("Patient Age Group: " + (patientOverTwelveCheckbox.isSelected() ? "Over 12" : "Under 12") + "\n");
+                writer.write("Allergies: " + allergiesInput.getText() + "\n");
+                writer.write("Concerns: " + concernsInput.getText() + "\n");
+                writer.close();
+            } else {
+                showErrorDialog("No appointment scheduled for today");
+            }
 
             System.out.println("Check-in data saved successfully: " + file.getName());
         } catch (IOException e) {
             System.out.println("Error saving check-in data: " + e.getMessage());
         }
     }
-    
-    
-    
-    private String generateUniquePatientId() {
-        // Generate a random 5-digit number for patient ID
-        Random random = new Random();
-        String patientId;
-        do {
-            patientId = String.format("%05d", random.nextInt(100000));
-        } while (!isUniquePatientId(patientId));
-        return patientId;
-    }
-    
-    private boolean isUniquePatientId(String patientId) {
-        // Check if the patient ID is unique by scanning through existing patient directories
-        File patientsDirectory = new File("user_info/patients");
-        if (patientsDirectory.exists() && patientsDirectory.isDirectory()) {
-            File[] patientDirectories = patientsDirectory.listFiles();
-            if (patientDirectories != null) {
-                for (File directory : patientDirectories) {
-                    if (directory.isDirectory() && directory.getName().equals(patientId)) {
-                        // Found a directory with the same name as the generated patient ID
-                        return false;
-                    }
-                }
-            }
-        }
-        // If no directory matches the generated patient ID, it's unique
-        return true;
-    }
-    
-    private void createPatientDirectory(String patientId) {
-        try {
-            // Create a directory for the patient
-            File directory = new File("user_info/patients/" + patientId);
-            if (!directory.exists()) {
-                directory.mkdirs();
-                System.out.println("Patient directory created successfully: " + directory.getName());
-            }
-        } catch (Exception e) {
-            System.out.println("Error creating patient directory: " + e.getMessage());
-        }
-    }
-    
-    private void createPatientInfoFile(String patientId, String name) {
-        try {
-            // Create a file for general patient information
-            File file = new File("user_info/patients/" + patientId + "/general_info.txt");
-            FileWriter writer = new FileWriter(file);
 
-            // Write patient's name and ID to the file
-            writer.write("Name: " + name + "\n");
-            writer.write("ID: " + patientId + "\n");
 
-            // Close the writer
-            writer.close();
 
-            System.out.println("General info file created successfully: " + file.getName());
-        } catch (IOException e) {
-            System.out.println("Error creating general info file: " + e.getMessage());
-        }
-    }
-    
 
 }

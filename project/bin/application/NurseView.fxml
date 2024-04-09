@@ -11,12 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NurseController">
    <children>
-   	  <CheckBox fx:id="newPatientCheckbox" layoutX="50.0" layoutY="166.0" mnemonicParsing="false" text="New Patient?">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <TextField fx:id="nameInput" disable="${!newPatientCheckbox.selected}" layoutX="50.0" layoutY="203.0" prefHeight="35.0" prefWidth="235.0" promptText="Full name" />
+      <TextField fx:id="nameInput" layoutX="50.0" layoutY="203.0" prefHeight="35.0" prefWidth="235.0" promptText="Full name" />
       <TextField id="heightInput" fx:id="heightInput" layoutX="50.0" layoutY="256.0" prefHeight="35.0" prefWidth="235.0" promptText="Height (cm)" />
       <TextField id="tempInput" fx:id="tempInput" layoutX="50.0" layoutY="377.0" prefHeight="35.0" prefWidth="235.0" promptText="Body Temperature (F*)" />
       <TextField id="weightInput" fx:id="weightInput" layoutX="50.0" layoutY="315.0" prefHeight="35.0" prefWidth="235.0" promptText="Weight (lbs)" />
@@ -74,12 +69,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="idInput" disable="${newPatientCheckbox.selected}" layoutX="50.0" layoutY="119.0" prefHeight="35.0" prefWidth="235.0" promptText="Patient ID" />
-      <Label fx:id="patientIdLabel" layoutX="607.0" layoutY="482.0" prefHeight="20.0" prefWidth="235.0" text="Patient ID Created: " visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <TextField fx:id="idInput" layoutX="50.0" layoutY="136.0" prefHeight="35.0" prefWidth="235.0" promptText="Patient ID" />
       <Label fx:id="immunizationText" alignment="TOP_LEFT" layoutX="320.0" layoutY="456.0" prefHeight="131.0" prefWidth="235.0" style="-fx-border-color: grey;">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

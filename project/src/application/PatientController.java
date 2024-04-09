@@ -1,6 +1,8 @@
 package application;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,7 +36,7 @@ import javafx.stage.Stage;
 
 
 
-public class PatientController {
+public class PatientController implements Initializable {
 
 	
     private Stage primaryStage;
@@ -291,7 +294,7 @@ public class PatientController {
     		// Get current date and time
             LocalDate currentDate = LocalDate.now();
             LocalDate selectedDate = dateInput.getValue();
-            if (selectedDate != null && selectedDate.isAfter(currentDate)) {
+            if (selectedDate != null && (selectedDate.isAfter(currentDate) || selectedDate.isEqual(currentDate))) {
             	String directoryPath = "user_info/patients/" + patientId + "/appointments/";
                 File directory = new File(directoryPath);
                 if (!directory.exists()) {
@@ -359,12 +362,40 @@ public class PatientController {
     }
     
     @FXML
+    void removeAppointment(ActionEvent event) throws IOException {
+        Button buttonClicked = (Button) event.getSource();
+        HBox appointmentHBox = (HBox) buttonClicked.getParent();
+        Label dateLabel = (Label) appointmentHBox.lookup("#" + buttonClicked.getId().replace("remove", "date"));
+
+        String appointmentDate = dateLabel.getText();
+
+        String directoryPath = "user_info/patients/" + patientId + "/appointments/";
+        File appointmentFile = new File(directoryPath + appointmentDate + ".txt");
+
+        if (appointmentFile.exists()) {
+            if (appointmentFile.delete()) {
+                System.out.println("Appointment file deleted successfully: " + appointmentFile.getName());
+                // Refresh the view after removing the appointment
+                loadAppointments();
+            } else {
+                System.out.println("Failed to delete appointment file: " + appointmentFile.getName());
+            }
+        } else {
+            System.out.println("Appointment file does not exist: " + appointmentFile.getName());
+        }
+    }
+    
+    
+    @FXML
     private void loadAppointments() {
         String directoryPath = "user_info/patients/" + patientId + "/appointments/";
         File directory = new File(directoryPath);
         if (directory.exists()) {
             File[] files = directory.listFiles();
             if (files != null) {
+            	// Initialize all appointments to empty
+                clearAppointments();
+                
                 for (int i = 0; i < files.length && i < 5; i++) { // Limit to the first 5 appointments
                     File file = files[i];
                     try {
@@ -407,6 +438,26 @@ public class PatientController {
             }
         }
     }
+    
+ // Helper method to clear all appointment details
+    private void clearAppointments() {
+        for (int i = 1; i <= 5; i++) {
+            HBox appointmentHBox = getAppointmentHBox(i);
+            if (appointmentHBox != null) {
+                Label doctorLabel = (Label) appointmentHBox.lookup("#appointment" + i + "doctor");
+                Label dateLabel = (Label) appointmentHBox.lookup("#appointment" + i + "date");
+                Button button1 = (Button) appointmentHBox.lookup("#appointment" + i + "button");
+                Button button2 = (Button) appointmentHBox.lookup("#appointment" + i + "remove");
+
+                doctorLabel.setText("");
+                dateLabel.setText("");
+                button1.setVisible(false);
+                button1.setDisable(true);
+                button2.setVisible(false);
+                button2.setDisable(true);
+            }
+        }
+    }
 
 
     // Helper method to get the corresponding appointment HBox
@@ -425,5 +476,10 @@ public class PatientController {
             default:
                 return null;
         }
+    }
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        loadAppointments();
     }
 }
