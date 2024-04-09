@@ -1,5 +1,10 @@
 package application;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,39 +13,35 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Random;
+public class EmployeeCreationController {
 
-public class PatientCreationController {
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private VBox container;
 
     @FXML
     private TextField fullNameField;
 
     @FXML
-    private TextField insuranceNumberField;
-
-    @FXML
-    private TextField priorImmunizationsField;
-    
-    @FXML
     private PasswordField passwordField;
 
     @FXML
     private Button submitButton;
-
-    @FXML
-    private Button backButton;
     
-    @FXML 
-    private VBox container;
+    @FXML
+    private CheckBox doctorCheckbox;
+    
+    @FXML
+    private CheckBox nurseCheckbox;
 
     private Stage primaryStage;
     public void setPrimaryStage(Stage primaryStage) {
@@ -56,20 +57,33 @@ public class PatientCreationController {
     private void handleSubmitButtonAction(ActionEvent e) {
         String fullName = fullNameField.getText();
         String password = passwordField.getText();
-        String insuranceNumber = insuranceNumberField.getText();
-        String priorImmunizations = priorImmunizationsField.getText();
 
-        if (fullName.isEmpty() || insuranceNumber.isEmpty() || password.isEmpty()) {
-            showErrorDialog("Please enter the full name, password, and insurance number.");
+        if (fullName.isEmpty() || password.isEmpty()) {
+            showErrorDialog("Please enter the full name and password.");
             return;
         }
+        if(doctorCheckbox.isSelected() && nurseCheckbox.isSelected()) {
+        	showErrorDialog("Only check one box");
+        	return;
+        }
+        if(!(doctorCheckbox.isSelected() || nurseCheckbox.isSelected())) {
+        	showErrorDialog("Please check one box");
+        	return;
+        }
+        
+        String employeeId = generateUniqueEmployeeId();
+        if(doctorCheckbox.isSelected()) {
+        	createEmployeeInfoFile(employeeId, fullName, password, "Doctor");
+        }
+        if(nurseCheckbox.isSelected()) {
+        	createEmployeeInfoFile(employeeId, fullName, password, "Nurse");
+        }
 
-        String patientId = generateUniquePatientId();
-        createPatientInfoFile(patientId, fullName, password, insuranceNumber, priorImmunizations);
+
         
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Your ID");
-        VBox vbox = new VBox(new Text("Your ID Number is: " + patientId + "\n" + "You must remember this, write it down."));
+        VBox vbox = new VBox(new Text("Your ID Number is: " + employeeId + "\n" + "You must remember this, write it down."));
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(20));
         Scene dialogScene = new Scene(vbox, 300, 100);
@@ -79,9 +93,6 @@ public class PatientCreationController {
         // Optionally, you can clear the fields or perform other actions after
         // submission
         clearFields();
-
-        // You can also switch back to another view, for example:
-        // switchToNavView();
     }
 
     @FXML
@@ -95,19 +106,23 @@ public class PatientCreationController {
         primaryStage.setTitle("Login View");
     }
 
-    private void createPatientInfoFile(String patientId, String name, String password, String insuranceNumber,
-            String priorImmunizations) {
+    private void createEmployeeInfoFile(String employeeId, String name, String password, String role) {
         try {
             // Create patient directory if it doesn't already exist
-            createPatientDirectory(patientId);
+        	if(role.equals("Doctor")) {
+        		createDoctorDirectory(employeeId);
+        	}
+        	else {
+        		createNurseDirectory(employeeId);
+        	}
+            
 
             // Create a file for general patient information
-            File file = new File("user_info/patients/" + patientId + "/general_info.txt");
+            File file = new File("user_info/" + role + "s/" + employeeId + "/general_info.txt");
             FileWriter writer = new FileWriter(file);
             writer.write("Full Name: " + name + "\n");
             writer.write("Password: " + password + "\n");
-            writer.write("Insurance Number: " + insuranceNumber + "\n");
-            writer.write("Prior Immunizations: " + priorImmunizations + "\n");
+            writer.write("Role: " + role + "\n");
             writer.close();
 
             System.out.println("General info file created successfully: " + file.getName());
@@ -116,30 +131,42 @@ public class PatientCreationController {
         }
     }
 
-    private void createPatientDirectory(String patientId) {
+    private void createDoctorDirectory(String employeeId) {
         try {
             // Create a directory for the patient
-            File directory = new File("user_info/patients/" + patientId);
+            File directory = new File("user_info/doctors/" + employeeId);
             if (!directory.exists()) {
                 directory.mkdirs();
-                System.out.println("Patient directory created successfully: " + directory.getName());
+                System.out.println("Doctor directory created successfully: " + directory.getName());
             }
         } catch (Exception e) {
-            System.out.println("Error creating patient directory: " + e.getMessage());
+            System.out.println("Error creating doctor directory: " + e.getMessage());
+        }
+    }
+    private void createNurseDirectory(String employeeId) {
+        try {
+            // Create a directory for the patient
+            File directory = new File("user_info/nurses/" + employeeId);
+            if (!directory.exists()) {
+                directory.mkdirs();
+                System.out.println("Nurse directory created successfully: " + directory.getName());
+            }
+        } catch (Exception e) {
+            System.out.println("Error creating nurse directory: " + e.getMessage());
         }
     }
 
-    private String generateUniquePatientId() {
+    private String generateUniqueEmployeeId() {
         // Generate a random 5-digit number for patient ID
         Random random = new Random();
         String patientId;
         do {
             patientId = String.format("%05d", random.nextInt(100000));
-        } while (!isUniquePatientId(patientId));
+        } while (!isUniqueEmployeeId(patientId));
         return patientId;
     }
 
-    private boolean isUniquePatientId(String patientId) {
+    private boolean isUniqueEmployeeId(String patientId) {
         // Check if the patient ID is unique by scanning through existing patient
         // directories
         File patientsDirectory = new File("user_info/patients");
@@ -174,7 +201,5 @@ public class PatientCreationController {
     private void clearFields() {
         fullNameField.clear();
         passwordField.clear();
-        insuranceNumberField.clear();
-        priorImmunizationsField.clear();
     }
 }

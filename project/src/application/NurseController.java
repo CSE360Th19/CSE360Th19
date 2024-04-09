@@ -31,8 +31,12 @@ import javafx.stage.Stage;
 
 public class NurseController {
 	private Stage primaryStage;
+	private String employeeId;
 	public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+	public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     @FXML
@@ -161,13 +165,13 @@ public class NurseController {
     
     @FXML
     void logout(ActionEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("NavView.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
         Parent root = loader.load();
-        MainController navController = loader.getController();
-        navController.setPrimaryStage(primaryStage);
+        LoginController loginController = loader.getController();
+        loginController.setPrimaryStage(primaryStage);
 
         primaryStage.getScene().setRoot(root);
-        primaryStage.setTitle("Navigation View");
+        primaryStage.setTitle("Login View");
     }
 
     // Helper method to check if all provided text fields are not empty

@@ -18,12 +18,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			// Start by showing Nav view while testing
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("navView.fxml"));
+			// Start by showing Login View
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
 			Parent root = loader.load();
 			
-			MainController viewController = loader.getController();
-			viewController.setStage(primaryStage);
+			LoginController loginController = loader.getController();
+			loginController.setPrimaryStage(primaryStage);
 			
 			// Create database folder if it doesn't exist
 	        File folder = new File(FOLDER_NAME);
@@ -32,7 +32,7 @@ public class Main extends Application {
 	        }
 			
 			Scene scene = new Scene(root);
-			primaryStage.setTitle("Nav View");
+			primaryStage.setTitle("Login View");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 	    } catch(Exception e) {

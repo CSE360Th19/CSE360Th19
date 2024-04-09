@@ -1,0 +1,4 @@
+Full Name: Test Patient
+Password: pass
+Insurance Number: 123734
+Prior Immunizations: None

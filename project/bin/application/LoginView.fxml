@@ -16,13 +16,32 @@
     </font>
   </Label>
       <Rectangle fx:id="blueFrame" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="600.0" stroke="BLACK" strokeType="INSIDE" width="900.0" />
-      <PasswordField fx:id="passwordText" layoutX="392.0" layoutY="325.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="443.0" layoutY="369.0" mnemonicParsing="false" onAction="#buttonPress" text="Login" />
-      <Label fx:id="loginLabel" layoutX="379.0" layoutY="207.0" text="Login View" textFill="WHITE">
+      <PasswordField fx:id="passwordText" layoutX="364.0" layoutY="322.0" promptText="Password">
+         <font>
+            <Font size="14.0" />
+         </font></PasswordField>
+      <Button fx:id="loginButton" layoutX="424.0" layoutY="366.0" mnemonicParsing="false" onAction="#login" text="Login">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label fx:id="loginLabel" layoutX="363.0" layoutY="203.0" text="Login View" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <TextField fx:id="idText" layoutX="392.0" layoutY="285.0" promptText="ID Number" />
+      <TextField fx:id="idText" layoutX="364.0" layoutY="285.0" promptText="ID Number">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Button fx:id="createAccountButton" onAction="#createAccount" layoutX="394.0" layoutY="489.0" mnemonicParsing="false" text="Create Account">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="409.0" layoutY="469.0" text="New Patient?" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
 </children>
 </AnchorPane>

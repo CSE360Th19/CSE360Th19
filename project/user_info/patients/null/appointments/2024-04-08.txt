@@ -1,9 +1,0 @@
-Date: 2024-04-08
-Doctor: test
-Height: dsasdaads
-Weight: dasdasdas
-Temperature: dasadsdasads
-Blood Pressure: adsasd
-Patient Age Group: Over 12
-Allergies: dasadsasddasds
-Concerns: asddass

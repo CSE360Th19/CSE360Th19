@@ -341,13 +341,13 @@ public class PatientController implements Initializable {
     
     @FXML
     void logout(ActionEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("NavView.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
         Parent root = loader.load();
-        MainController navController = loader.getController();
-        navController.setPrimaryStage(primaryStage);
+        LoginController loginController = loader.getController();
+        loginController.setPrimaryStage(primaryStage);
 
         primaryStage.getScene().setRoot(root);
-        primaryStage.setTitle("Navigation View");
+        primaryStage.setTitle("Login View");
     }
     
     private void showErrorDialog(String message) {
