@@ -166,17 +166,22 @@ public class EmployeeCreationController {
         return patientId;
     }
 
-    private boolean isUniqueEmployeeId(String patientId) {
-        // Check if the patient ID is unique by scanning through existing patient
-        // directories
-        File patientsDirectory = new File("user_info/patients");
-        if (patientsDirectory.exists() && patientsDirectory.isDirectory()) {
-            File[] patientDirectories = patientsDirectory.listFiles();
-            if (patientDirectories != null) {
-                for (File directory : patientDirectories) {
-                    if (directory.isDirectory() && directory.getName().equals(patientId)) {
-                        // Found a directory with the same name as the generated patient ID
-                        return false;
+    private boolean isUniqueEmployeeId(String employeeId) {
+        // Check if the patient ID is unique by scanning through existing patient, doctor, and nurse directories
+        File[] directories = {
+            new File("user_info/patients"),
+            new File("user_info/doctors"),
+            new File("user_info/nurses")
+        };
+
+        for (File directory : directories) {
+            if (directory.exists() && directory.isDirectory()) {
+                File[] files = directory.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        if (file.isDirectory() && file.getName().equals(employeeId)) {
+                            return false;
+                        }
                     }
                 }
             }
