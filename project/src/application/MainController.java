@@ -32,19 +32,14 @@ public class MainController {
 
   
     @FXML
-    void doctorView(ActionEvent event) {
-    	/*
-    	try {
-    		Parent root = FXMLLoader.load(getClass().getResource("DoctorView.fxml"));
-    		Scene scene = new Scene(root);
-		
-    		primaryStage.setTitle("Nurse View");
-    		primaryStage.setScene(scene);
-    		primaryStage.show();
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    	*/
+    void doctorView(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("DoctorView.fxml"));
+        Parent root = loader.load();
+        DoctorController doctorController = loader.getController();
+        doctorController.setPrimaryStage(primaryStage);
+
+        primaryStage.getScene().setRoot(root);
+        primaryStage.setTitle("Doctor View");
     }
 
     @FXML
