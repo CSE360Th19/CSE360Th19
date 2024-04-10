@@ -1,8 +1,0 @@
-Medication: med
-Usage: dailya usage
-Refill info:
-~~~~~
-Medication: medty
-Usage: dailya usageghjghj
-Refill info:r
-~~~~~

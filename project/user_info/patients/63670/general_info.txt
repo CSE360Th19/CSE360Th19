@@ -1,3 +1,0 @@
-Full Name: TEST PATIENT
-Password: pass
-Insurance Number: 15436646

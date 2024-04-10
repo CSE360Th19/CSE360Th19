@@ -1,3 +1,0 @@
-Full Name: daren
-Password: pass
-Insurance Number: 123

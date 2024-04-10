@@ -1,3 +1,0 @@
-Full Name: Test nurse 2
-Password: pass
-Role: Nurse

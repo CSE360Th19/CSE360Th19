@@ -1,9 +1,0 @@
-Date: 2024-04-09
-Doctor: N/A 
-Height: dgg
-Weight: 435
-Temperature: 346
-Blood Pressure: 6436
-Patient Age Group: Over 12
-Allergies: 364364634
-Concerns: 364364

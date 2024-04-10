@@ -1,3 +1,0 @@
-Full Name: Test Doctor #2
-Password: pass
-Role: Doctor

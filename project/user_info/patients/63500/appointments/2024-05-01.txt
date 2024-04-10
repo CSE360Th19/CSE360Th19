@@ -1,9 +1,0 @@
-Date: 2024-05-01
-Doctor: N/A 
-Height: 
-Weight: 
-Temperature: 
-Blood Pressure: 
-Patient Age Group: 
-Allergies: 
-Concerns: 
