@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -26,7 +25,22 @@
                 <TableColumn fx:id="detailsColumn" minWidth="200" text="Details" />
             </columns>
         </TableView>
-        <TextArea fx:id="patientDetailsArea" editable="false" layoutX="50.0" layoutY="310.0" prefHeight="100.0" prefWidth="774.0" promptText="Patient Details" />
-        <TextField fx:id="searchField" layoutX="50.0" layoutY="420.0" onAction="#handleSearch" prefWidth="300.0" promptText="Search Patient Records" />
+        <TextField fx:id="searchField" layoutX="50.0" layoutY="317.0" onAction="#handleSearch" prefWidth="300.0" promptText="Search Patient Records" />
+      <Button fx:id="chatButton" layoutX="717.0" layoutY="489.0" mnemonicParsing="false" onAction="#openChat" prefHeight="73.0" prefWidth="107.0" text="Chat">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="viewDetailsButton" layoutX="676.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleViewPatientDetails" text="Get Appointment Details" />
+      <Label layoutX="50.0" layoutY="385.0" prefHeight="27.0" prefWidth="130.0" text="Perscribe">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idText" layoutX="50.0" layoutY="443.0" prefHeight="25.0" prefWidth="147.0" promptText="Patient ID" />
+      <TextField fx:id="usageText" layoutX="50.0" layoutY="489.0" prefHeight="25.0" prefWidth="369.0" promptText="Usage" />
+      <TextField fx:id="refillText" layoutX="50.0" layoutY="538.0" prefHeight="25.0" prefWidth="300.0" promptText="Refill Info" />
+      <TextField fx:id="medicationText" layoutX="213.0" layoutY="443.0" prefHeight="25.0" prefWidth="206.0" promptText="Medication Name" />
+      <Button fx:id="prescribeButton" layoutX="356.0" layoutY="538.0" mnemonicParsing="false" text="Prescribe" onAction="#handlePrescribeMedication" />
     </children>
 </Pane>

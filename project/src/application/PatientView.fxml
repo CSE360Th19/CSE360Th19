@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -56,18 +54,6 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
-      </Label> 
-      <TableView fx:id="immunizationsTable" layoutX="556.0" layoutY="100.0" onSort="#immunizationsTabView" prefHeight="190.0" prefWidth="275.0">
-        <columns>
-          <TableColumn prefWidth="127.199951171875" text="Vaccine" />
-          <TableColumn prefWidth="71.99993896484375" text="Date" />
-            <TableColumn prefWidth="76.0001220703125" text="Due by" />
-        </columns>
-      </TableView>
-      <Label layoutX="556.0" layoutY="70.0" prefHeight="30.0" prefWidth="163.0" text="Immunizations">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
       </Label>
       <Button fx:id="refreshButton" layoutX="231.0" layoutY="328.0" mnemonicParsing="false" onAction="#loadAppointments" text="Refresh" />
       <VBox layoutX="83.0" layoutY="355.0" prefHeight="231.0" prefWidth="779.0" style="-fx-background-color: grey;">
@@ -109,8 +95,8 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="appointment1button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment1remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
+                  <Button fx:id="appointment1button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#appointmentDetails" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
+                  <Button fx:id="appointment1remove" mnemonicParsing="false" onAction="#removeAppointment" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
                </children>
             </HBox>
             <HBox fx:id="appointment2" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
@@ -131,8 +117,8 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="appointment2button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment2remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment"  />
+                  <Button fx:id="appointment2button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#appointmentDetails" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
+                  <Button fx:id="appointment2remove" mnemonicParsing="false" onAction="#removeAppointment" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
                </children>
             </HBox>
             <HBox fx:id="appointment3" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
@@ -153,8 +139,8 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="appointment3button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment3remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
+                  <Button fx:id="appointment3button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#appointmentDetails" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
+                  <Button fx:id="appointment3remove" mnemonicParsing="false" onAction="#removeAppointment" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
                </children>
             </HBox>
             <HBox fx:id="appointment4" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
@@ -175,8 +161,8 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="appointment4button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment4remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
+                  <Button fx:id="appointment4button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#appointmentDetails" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
+                  <Button fx:id="appointment4remove" mnemonicParsing="false" onAction="#removeAppointment" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
                </children>
             </HBox>
             <HBox fx:id="appointment5" prefHeight="41.0" prefWidth="779.0" style="-fx-background-color: white; -fx-border-color: black;">
@@ -197,11 +183,16 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="appointment5button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
-                  <Button fx:id="appointment5remove" mnemonicParsing="false" text="Remove" translateX="180.0" translateY="8.0" visible="false" onAction="#removeAppointment" />
+                  <Button fx:id="appointment5button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#appointmentDetails" text="Details" translateX="40.0" translateY="8.0" visible="false" HBox.hgrow="NEVER" />
+                  <Button fx:id="appointment5remove" mnemonicParsing="false" onAction="#removeAppointment" text="Remove" translateX="180.0" translateY="8.0" visible="false" />
                </children>
             </HBox>
          </children>
       </VBox>
+      <Button fx:id="chatButton" layoutX="634.0" layoutY="130.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="145.0" style="-fx-background-color: #4F5D75;" text="Chat" textFill="WHITE" onAction="#openChat" >
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -1,4 +1,0 @@
-Full Name: test patient 2
-Password: pass
-Insurance Number: 3579
-Prior Immunizations: none

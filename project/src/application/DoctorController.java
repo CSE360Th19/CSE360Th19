@@ -5,11 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +38,15 @@ public class DoctorController {
     private TableView<Appointment> appointmentsTable;
 
     @FXML
+    private Button chatButton;
+    
+    @FXML
+    private Button viewDetailsButton;
+    
+    @FXML
+    private Button prescribeButton;
+    
+    @FXML
     private TableColumn<Appointment, String> patientNameColumn;
     @FXML
     private TableColumn<Appointment, String> appointmentDateColumn;
@@ -42,75 +58,84 @@ public class DoctorController {
 
     @FXML
     private TextField searchField;
+    
+    @FXML
+    private TextField idText;
+    
+    @FXML
+    private TextField usageText;
+    
+    @FXML
+    private TextField refillText;
+    
+    @FXML
+    private TextField medicationText;
 
     private ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
-        appointmentDateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-        detailsColumn.setCellValueFactory(new PropertyValueFactory<>("details"));
-
-        // Example data loading
-        appointmentList.addAll(
-            new Appointment("John Doe", "2024-04-05", "Annual Checkup"),
-            new Appointment("Jane Smith", "2024-04-06", "Consultation")
-        );
-        appointmentsTable.setItems(appointmentList);
+    	loadAppointments();
     }
 
     @FXML
-    private void handleViewPatientDetails() {
+    private void handleViewPatientDetails() throws IOException {
         Appointment selected = appointmentsTable.getSelectionModel().getSelectedItem();
+        
         if (selected != null) {
-            // In a real application, you would fetch these details from a database
-            patientDetailsArea.setText("Details for " + selected.getPatientName() + ": \n- Date: " + selected.getAppointmentDate() + "\n- Reason: " + selected.getDetails());
+        	String patientName = selected.getPatientName();
+            String patientId = patientName.substring(patientName.lastIndexOf("(") + 1, patientName.lastIndexOf(")")).trim();
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientHealthRecord.fxml"));
+            loader.setControllerFactory(controllerClass -> {
+        	    PatientController patientController = new PatientController();
+        	    patientController.setPrimaryStage(primaryStage);
+        	    patientController.setPatientId(patientId);
+        	    patientController.setAppointmentDate(selected.getAppointmentDate());
+        	    patientController.setDoctorView(true);
+        	    patientController.setDoctorId(employeeId);
+        	    return patientController;
+        	});
+
+        	Parent root = loader.load();
+
+        	primaryStage.getScene().setRoot(root);
+        	primaryStage.setTitle("Health Record View");
         } else {
             showAlert("No Selection", "No appointment selected.", "Please select an appointment to view details.");
         }
     }
 
     @FXML
-    private void handleUpdateAppointment() {
-        Appointment selected = appointmentsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            // Placeholder for update logic
-            showAlert("Update Appointment", "Appointment Updated", "The appointment for " + selected.getPatientName() + " has been updated.");
-        } else {
-            showAlert("No Selection", "No appointment selected.", "Please select an appointment to update.");
-        }
-    }
-
-    @FXML
-    private void handleCancelAppointment() {
-        Appointment selected = appointmentsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            appointmentList.remove(selected); // Simulate cancelling an appointment
-            showAlert("Cancel Appointment", "Appointment Cancelled", "The appointment for " + selected.getPatientName() + " has been cancelled.");
-        } else {
-            showAlert("No Selection", "No appointment selected.", "Please select an appointment to cancel.");
-        }
-    }
-
-    @FXML
     private void handlePrescribeMedication() {
-        Appointment selected = appointmentsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            // Placeholder for prescribe medication logic
-            showAlert("Prescribe Medication", "Medication Prescribed", "Medication has been prescribed to " + selected.getPatientName() + ".");
-        } else {
-            showAlert("No Selection", "No appointment selected.", "Please select a patient to prescribe medication.");
-        }
-    }
+        if(checkFieldsNotEmpty(idText, usageText, refillText, medicationText)) {
+        	String patientId = idText.getText();
+            String medication = medicationText.getText();
+            String usage = usageText.getText();
+            String refillInfo = refillText.getText();
 
-    @FXML
-    private void handleViewMedicalHistory() {
-        Appointment selected = appointmentsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            // Placeholder for viewing medical history
-            showAlert("Medical History", "Viewing Medical History", "Medical history for " + selected.getPatientName() + " is displayed.");
-        } else {
-            showAlert("No Selection", "No patient selected.", "Please select a patient to view medical history.");
+            String prescription = "Medication: " + medication + "\nUsage: " + usage + "\nRefill info: " + refillInfo + "\n~~~~~\n";
+
+            File prescriptionsFile = new File("user_info/patients/" + patientId + "/prescriptions.txt");
+
+            try {
+                // Create the prescriptions file if it doesn't exist
+                if (!prescriptionsFile.exists()) {
+                    prescriptionsFile.createNewFile();
+                }
+
+                // Append the prescription to the file
+                FileWriter fileWriter = new FileWriter(prescriptionsFile, true);
+                fileWriter.write(prescription);
+                fileWriter.close();
+
+                showAlert("Prescription Added", "Prescription Successfully Added", "Prescription has been added for patient ID: " + patientId);
+            } catch (IOException e) {
+                showAlert("Error", "Error Writing Prescription", "An error occurred while writing the prescription.");
+                e.printStackTrace();
+            }
+        }
+        else {
+        	showAlert("Error", "Not all fields filled", "Please fill out all fields");
         }
     }
 
@@ -138,6 +163,24 @@ public class DoctorController {
             appointmentsTable.setItems(appointmentList); // Reset to all appointments if search is cleared
         }
     }
+    
+    @FXML
+    public void openChat() throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageView.fxml"));
+
+    	loader.setControllerFactory(controllerClass -> {
+    	    MessageController messageController = new MessageController();
+    	    messageController.setPrimaryStage(primaryStage);
+    	    messageController.setEmployeeId(employeeId);
+    	    messageController.setRole("doctor");
+    	    return messageController;
+    	});
+
+    	Parent root = loader.load();
+
+    	primaryStage.getScene().setRoot(root);
+    	primaryStage.setTitle("Message View");
+    }
 
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -163,4 +206,102 @@ public class DoctorController {
         public String getAppointmentDate() { return appointmentDate.get(); }
         public String getDetails() { return details.get(); }
     }
+    
+    private void loadAppointments() {
+    	patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        appointmentDateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        detailsColumn.setCellValueFactory(new PropertyValueFactory<>("details"));
+        String baseDirectoryPath = "user_info/patients/";
+
+        File baseDirectory = new File(baseDirectoryPath);
+        if (baseDirectory.exists() && baseDirectory.isDirectory()) {
+            // Iterate through patient folders
+            for (File patientDirectory : baseDirectory.listFiles()) {
+                if (patientDirectory.isDirectory()) {
+                	String patientId = patientDirectory.getName();
+                    // Inside each patient folder, look for appointments directory
+                    File appointmentsDirectory = new File(patientDirectory.getPath() + "/appointments/");
+                    if (appointmentsDirectory.exists() && appointmentsDirectory.isDirectory()) {
+                        // Iterate through appointment files
+                        for (File appointmentFile : appointmentsDirectory.listFiles()) {
+                            try {
+                                // Read content of each appointment file
+                                Scanner scanner = new Scanner(appointmentFile);
+                                StringBuilder contentBuilder = new StringBuilder();
+                                while (scanner.hasNextLine()) {
+                                    contentBuilder.append(scanner.nextLine()).append("\n");
+                                }
+                                String content = contentBuilder.toString();
+
+                                // Extract appointment date from filename
+                                String appointmentDate = appointmentFile.getName().replace(".txt", "");
+
+                                // Extract appointment details from file content
+                                String[] lines = content.split("\n");
+                                String concerns = "";
+                                for (String line : lines) {
+                                    if (line.startsWith("Concerns:")) {
+                                        concerns = line.substring("Concerns:".length()).trim();
+                                        break;
+                                    }
+                                }
+
+                                // Create Appointment object
+                                Appointment appointment = new Appointment(getName(patientId, "patient") + " (" + patientId + ")", appointmentDate, concerns);
+
+                                // Add appointment to the list
+                                appointmentList.add(appointment);
+
+                                scanner.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        appointmentsTable.setItems(appointmentList);
+    }
+    
+    public String getName(String id, String role) {
+    	File generalInfoFile = new File("user_info/" + role + "s/" + id + "/general_info.txt");
+        if (generalInfoFile.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(generalInfoFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(":");
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        System.out.println(value);
+                        System.out.println(key);
+                        switch (key) {
+                            case "Full Name":
+                                return value;
+						default:
+                                // Unknown key, do nothing
+                                break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+        	return "null";
+        }
+        return "null";
+    }
+    
+    private boolean checkFieldsNotEmpty(TextInputControl... fields) {
+        for (TextInputControl field : fields) {
+            if (field.getText().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

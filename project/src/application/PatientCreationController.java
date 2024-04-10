@@ -26,9 +26,6 @@ public class PatientCreationController {
 
     @FXML
     private TextField insuranceNumberField;
-
-    @FXML
-    private TextField priorImmunizationsField;
     
     @FXML
     private PasswordField passwordField;
@@ -57,7 +54,6 @@ public class PatientCreationController {
         String fullName = fullNameField.getText();
         String password = passwordField.getText();
         String insuranceNumber = insuranceNumberField.getText();
-        String priorImmunizations = priorImmunizationsField.getText();
 
         if (fullName.isEmpty() || insuranceNumber.isEmpty() || password.isEmpty()) {
             showErrorDialog("Please enter the full name, password, and insurance number.");
@@ -65,7 +61,7 @@ public class PatientCreationController {
         }
 
         String patientId = generateUniquePatientId();
-        createPatientInfoFile(patientId, fullName, password, insuranceNumber, priorImmunizations);
+        createPatientInfoFile(patientId, fullName, password, insuranceNumber);
         
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Your ID");
@@ -95,8 +91,7 @@ public class PatientCreationController {
         primaryStage.setTitle("Login View");
     }
 
-    private void createPatientInfoFile(String patientId, String name, String password, String insuranceNumber,
-            String priorImmunizations) {
+    private void createPatientInfoFile(String patientId, String name, String password, String insuranceNumber) {
         try {
             // Create patient directory if it doesn't already exist
             createPatientDirectory(patientId);
@@ -107,7 +102,6 @@ public class PatientCreationController {
             writer.write("Full Name: " + name + "\n");
             writer.write("Password: " + password + "\n");
             writer.write("Insurance Number: " + insuranceNumber + "\n");
-            writer.write("Prior Immunizations: " + priorImmunizations + "\n");
             writer.close();
 
             System.out.println("General info file created successfully: " + file.getName());
@@ -180,6 +174,5 @@ public class PatientCreationController {
         fullNameField.clear();
         passwordField.clear();
         insuranceNumberField.clear();
-        priorImmunizationsField.clear();
     }
 }

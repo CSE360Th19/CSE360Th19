@@ -1,9 +1,11 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,6 +13,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import application.DoctorController.Appointment;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,9 +47,15 @@ public class PatientController implements Initializable {
 	
     private Stage primaryStage;
     private String patientId;
+    private String appointmentDate;
+    private Boolean doctorView = false;
+    private String doctorId;
     
     @FXML
     private HBox appointment1;
+    
+    @FXML
+    private Button chatButton;
 
     @FXML
     private Button appointment1button;
@@ -165,10 +177,21 @@ public class PatientController implements Initializable {
     private Button backButton;
 
     @FXML
-    private TableView<?> prescriptionTab;
+    private TableView<Prescription> prescriptionTab;
+    
+    @FXML
+    private TableColumn<Prescription, String> nameColumn;
+    
+    @FXML
+    private TableColumn<Prescription, String> usageColumn;
+    
+    @FXML
+    private TableColumn<Prescription, String> refillColumn;
 
     @FXML
     private TableView<?> bookAppointmentTab;
+    
+    private ObservableList<Prescription> prescriptionList = FXCollections.observableArrayList();
 
     @FXML
     private Button confirmButton;
@@ -182,7 +205,6 @@ public class PatientController implements Initializable {
     @FXML
     private Button refreshButton;
     
-    
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -190,6 +212,17 @@ public class PatientController implements Initializable {
 
     public void setPatientId(String patientId) {
         this.patientId = patientId;
+    }
+    
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+    
+    public void setDoctorView(Boolean flag) {
+        doctorView = flag;
+    }
+    public void setDoctorId(String flag) {
+        doctorId = flag;
     }
 
     @FXML
@@ -201,13 +234,18 @@ public class PatientController implements Initializable {
     void bookAppBtnClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("bookAppointmentsView.fxml"));
-            Parent page = loader.load();
-            PatientController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-            Scene scene = new Scene(page);
-            primaryStage.setTitle("Patient View");
-            primaryStage.setScene(scene);
-    		primaryStage.show();
+            loader.setControllerFactory(controllerClass -> {
+        	    PatientController patientController = new PatientController();
+        	    patientController.setPrimaryStage(primaryStage);
+        	    patientController.setPatientId(patientId);
+        	    patientController.setAppointmentDate(appointmentDate);
+        	    return patientController;
+        	});
+
+        	Parent root = loader.load();
+
+        	primaryStage.getScene().setRoot(root);
+        	primaryStage.setTitle("Appointments View");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,14 +254,20 @@ public class PatientController implements Initializable {
     @FXML
     void healthRecBtnClick(ActionEvent event) {
         try {
+        	
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientHealthRecord.fxml"));
-            Parent page = loader.load();
-            PatientController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-            Scene scene = new Scene(page);
-            primaryStage.setTitle("Patient View");
-            primaryStage.setScene(scene);
-    		primaryStage.show();
+            loader.setControllerFactory(controllerClass -> {
+        	    PatientController patientController = new PatientController();
+        	    patientController.setPrimaryStage(primaryStage);
+        	    patientController.setPatientId(patientId);
+        	    patientController.setAppointmentDate(appointmentDate);
+        	    return patientController;
+        	});
+
+        	Parent root = loader.load();
+
+        	primaryStage.getScene().setRoot(root);
+        	primaryStage.setTitle("Health Record View");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -243,13 +287,18 @@ public class PatientController implements Initializable {
     void insuranceBtnClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("InsuranceView.fxml"));
-            Parent page = loader.load();
-            PatientController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-            Scene scene = new Scene(page);
-            primaryStage.setTitle("Patient View");
-            primaryStage.setScene(scene);
-    		primaryStage.show();
+            loader.setControllerFactory(controllerClass -> {
+        	    PatientController patientController = new PatientController();
+        	    patientController.setPrimaryStage(primaryStage);
+        	    patientController.setPatientId(patientId);
+        	    patientController.setAppointmentDate(appointmentDate);
+        	    return patientController;
+        	});
+
+        	Parent root = loader.load();
+
+        	primaryStage.getScene().setRoot(root);
+        	primaryStage.setTitle("Insurance View");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -259,13 +308,18 @@ public class PatientController implements Initializable {
     void prescriptionsBtnClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PrescriptionsView.fxml"));
-            Parent page = loader.load();
-            PatientController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-            Scene scene = new Scene(page);
-            primaryStage.setTitle("Patient View");
-            primaryStage.setScene(scene);
-    		primaryStage.show();
+            loader.setControllerFactory(controllerClass -> {
+        	    PatientController patientController = new PatientController();
+        	    patientController.setPrimaryStage(primaryStage);
+        	    patientController.setPatientId(patientId);
+        	    patientController.setAppointmentDate(appointmentDate);
+        	    return patientController;
+        	});
+
+        	Parent root = loader.load();
+
+        	primaryStage.getScene().setRoot(root);
+        	primaryStage.setTitle("Prescriptions View");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -274,15 +328,38 @@ public class PatientController implements Initializable {
     @FXML
     void backButtonClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientView.fxml"));
-            Parent page = loader.load();
-            PatientController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-            Scene scene = new Scene(page);
-            primaryStage.setTitle("Patient View");
-            primaryStage.setScene(scene);
-    		primaryStage.show();
-    		loadAppointments();
+        	if(doctorView) {
+        		FXMLLoader loader = new FXMLLoader(getClass().getResource("DoctorView.fxml"));
+
+        		loader.setControllerFactory(controllerClass -> {
+        			DoctorController doctorController = new DoctorController();
+        			doctorController.setPrimaryStage(primaryStage);
+        			doctorController.setEmployeeId(doctorId);
+        			return doctorController;
+        		});
+
+        		Parent root = loader.load();
+
+        		primaryStage.getScene().setRoot(root);
+        		primaryStage.setTitle("Doctor View");
+        	}
+        	else {
+        		FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientView.fxml"));
+
+        		loader.setControllerFactory(controllerClass -> {
+        			PatientController patientController = new PatientController();
+        			patientController.setPrimaryStage(primaryStage);
+        			patientController.setPatientId(patientId);
+        			patientController.setAppointmentDate(appointmentDate);
+        			return patientController;
+        		});
+
+        		Parent root = loader.load();
+
+        		primaryStage.getScene().setRoot(root);
+        		primaryStage.setTitle("Patient View");
+        	}
+        	
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -295,6 +372,7 @@ public class PatientController implements Initializable {
             LocalDate currentDate = LocalDate.now();
             LocalDate selectedDate = dateInput.getValue();
             if (selectedDate != null && (selectedDate.isAfter(currentDate) || selectedDate.isEqual(currentDate))) {
+            	System.out.println(patientId);
             	String directoryPath = "user_info/patients/" + patientId + "/appointments/";
                 File directory = new File(directoryPath);
                 if (!directory.exists()) {
@@ -439,6 +517,32 @@ public class PatientController implements Initializable {
         }
     }
     
+    @FXML
+    void appointmentDetails(ActionEvent event) throws IOException {
+        Button buttonClicked = (Button) event.getSource();
+        HBox appointmentHBox = (HBox) buttonClicked.getParent();
+        Label dateLabel = (Label) appointmentHBox.lookup("#" + buttonClicked.getId().replace("button", "date"));
+        String appointmentDate = dateLabel.getText();
+        this.appointmentDate = appointmentDate;
+
+        System.out.println(patientId);
+        System.out.println(appointmentDate);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientHealthRecord.fxml"));
+        loader.setControllerFactory(controllerClass -> {
+    	    PatientController patientController = new PatientController();
+    	    patientController.setPrimaryStage(primaryStage);
+    	    patientController.setPatientId(patientId);
+    	    patientController.setAppointmentDate(appointmentDate);
+    	    return patientController;
+    	});
+
+    	Parent root = loader.load();
+
+    	primaryStage.getScene().setRoot(root);
+    	primaryStage.setTitle("Health Record View");
+    }
+    
  // Helper method to clear all appointment details
     private void clearAppointments() {
         for (int i = 1; i <= 5; i++) {
@@ -478,8 +582,203 @@ public class PatientController implements Initializable {
         }
     }
     
+    private void loadAppointmentDetails() {
+        File appointmentFile = new File("user_info/patients/" + patientId + "/appointments/" + appointmentDate + ".txt");
+        File generalInfoFile = new File("user_info/patients/" + patientId + "/general_info.txt");
+        if (generalInfoFile.exists()) {
+        	idField.setText(patientId);
+            try (BufferedReader reader = new BufferedReader(new FileReader(generalInfoFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(":");
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        System.out.println(value);
+                        System.out.println(key);
+                        switch (key) {
+                            case "Full Name":
+                                nameField.setText(value);
+                                break;
+                            default:
+                                // Unknown key, do nothing
+                                break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        	
+        if (appointmentFile.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(appointmentFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(":");
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        switch (key) {
+                            case "Date":
+                                // Ignore, as the date is already set
+                                break;
+                            case "Doctor":
+                                // Ignore, as it's not present in the PatientHealthRecord.fxml
+                                break;
+                            case "Height":
+                                heightField.setText(value);
+                                break;
+                            case "Weight":
+                                weightField.setText(value);
+                                break;
+                            case "Blood Pressure":
+                                bpField.setText(value);
+                                break;
+                            case "Health Issues":
+                                healthIssueArea.setText(value);
+                                break;
+                            case "Allergies":
+                                allergiesField.setText(value);
+                                break;
+                            case "Concerns":
+                                concernsArea.setText(value);
+                                break;
+                            default:
+                                // Unknown key, do nothing
+                                break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+        	System.out.println("File doesnt exist, error");
+        }
+    }
+    
+public void loadInsuranceInfo() {
+	File generalInfoFile = new File("user_info/patients/" + patientId + "/general_info.txt");
+    if (generalInfoFile.exists()) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(generalInfoFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    String key = parts[0].trim();
+                    String value = parts[1].trim();
+                    System.out.println(value);
+                    System.out.println(key);
+                    switch (key) {
+                        case "Insurance Number":
+                            insuranceInfoText.setText("Insurance Number: " + value);
+                            break;
+                        default:
+                            // Unknown key, do nothing
+                            break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadAppointments();
+    	if (location.getFile().contains("PatientHealthRecord.fxml")) {
+            // Load appointment details only when showing PatientHealthRecord.fxml
+            System.out.println("Loading appointment details");
+            loadAppointmentDetails();
+        } else if (location.getFile().contains("PatientView.fxml")) {
+            // Load appointments only when showing PatientView.fxml
+            System.out.println("Loading appointments");
+            loadAppointments();
+        }
+        else if (location.getFile().contains("InsuranceView.fxml")) {
+        	System.out.println("Loading insurance information");
+        	loadInsuranceInfo();
+        }
+        else if (location.getFile().contains("PrescriptionsView.fxml")) {
+        	System.out.println("Loading Prescription information");
+        	loadPrescriptionInfo();
+        }
     }
+    
+    
+    @FXML
+    public void openChat() throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageView.fxml"));
+
+    	loader.setControllerFactory(controllerClass -> {
+    	    MessageController messageController = new MessageController();
+    	    messageController.setPrimaryStage(primaryStage);
+    	    messageController.setEmployeeId(patientId);
+    	    messageController.setRole("patient");
+    	    return messageController;
+    	});
+
+    	Parent root = loader.load();
+
+    	primaryStage.getScene().setRoot(root);
+    	primaryStage.setTitle("Message View");
+    }
+    
+    public static class Prescription {
+        private final SimpleStringProperty prescriptionName;
+        private final SimpleStringProperty presciptionUsage;
+        private final SimpleStringProperty presciptionRefill;
+
+        public Prescription(String prescriptionName, String presciptionUsage, String presciptionRefill) {
+            this.prescriptionName = new SimpleStringProperty(prescriptionName);
+            this.presciptionUsage = new SimpleStringProperty(presciptionUsage);
+            this.presciptionRefill = new SimpleStringProperty(presciptionRefill);
+        }
+
+        public String getPrescriptionName() { return prescriptionName.get(); }
+        public String getPresciptionUsage() { return presciptionUsage.get(); }
+        public String getPresciptionRefill() { return presciptionRefill.get(); }
+    }
+    
+    public void loadPrescriptionInfo() {
+    	nameColumn.setCellValueFactory(new PropertyValueFactory<>("prescriptionName"));
+        usageColumn.setCellValueFactory(new PropertyValueFactory<>("presciptionUsage"));
+        refillColumn.setCellValueFactory(new PropertyValueFactory<>("presciptionRefill"));
+
+        String filePath = "user_info/patients/" + patientId + "/prescriptions.txt";
+        File prescriptionFile = new File(filePath);
+        if (prescriptionFile.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(prescriptionFile))) {
+                String line;
+                String medication = "";
+                String usage = "";
+                String refillInfo = "";
+
+                // Read each line of the prescription file
+                while ((line = reader.readLine()) != null) {
+                	System.out.println(line);
+                    if (line.startsWith("Medication:")) {
+                        medication = line.substring("Medication:".length()).trim();
+                    }
+                    else if (line.startsWith("Usage:")) {
+                        usage = line.substring("Usage:".length()).trim();
+                    }
+                    else if (line.startsWith("Refill info:")) {
+                        refillInfo = line.substring("Refill info:".length()).trim();
+                    }
+                    else if (line.startsWith("~~~~~")) {
+                        prescriptionList.add(new Prescription(medication, usage, refillInfo));
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        prescriptionTab.setItems(prescriptionList);
+    }
+    
 }

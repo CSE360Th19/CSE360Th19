@@ -35,9 +35,9 @@
       </Button>
       <TableView fx:id="prescriptionTab" layoutX="110.0" layoutY="172.0" onSort="#prescriptionTabDisp" prefHeight="256.0" prefWidth="680.0">
         <columns>
-          <TableColumn prefWidth="173.5999984741211" text="Medication" />
-          <TableColumn minWidth="0.0" prefWidth="329.6000061035156" text="Usage" />
-            <TableColumn prefWidth="177.5999755859375" text="Refill Info" />
+          <TableColumn fx:id="nameColumn" prefWidth="173.5999984741211" text="Medication" />
+          <TableColumn fx:id="usageColumn" minWidth="0.0" prefWidth="329.6000061035156" text="Usage" />
+          <TableColumn fx:id="refillColumn" prefWidth="177.5999755859375" text="Refill Info" />
         </columns>
       </TableView>
       <Label layoutX="62.0" layoutY="65.0" prefHeight="40.0" prefWidth="169.0" text="Prescriptions:">

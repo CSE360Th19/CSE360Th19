@@ -77,13 +77,17 @@ public class LoginController {
 		        
 		        if(searchDirectory(doctorsDir, id, password)) {
 		        	FXMLLoader loader = new FXMLLoader(getClass().getResource("DoctorView.fxml"));
-		            Parent root = loader.load();
-		            DoctorController doctorController = loader.getController();
-		            doctorController.setPrimaryStage(primaryStage);
-		            doctorController.setEmployeeId(id);
+		        	loader.setControllerFactory(controllerClass -> {
+		        	    DoctorController doctorController = new DoctorController();
+		        	    doctorController.setPrimaryStage(primaryStage);
+		        	    doctorController.setEmployeeId(id);
+		        	    return doctorController;
+		        	});
 
-		            primaryStage.getScene().setRoot(root);
-		            primaryStage.setTitle("Doctor View");
+		        	Parent root = loader.load();
+
+		        	primaryStage.getScene().setRoot(root);
+		        	primaryStage.setTitle("Doctor View");
 		        }
 		        else if (searchDirectory(nursesDir, id, password)) {
 		        	FXMLLoader loader = new FXMLLoader(getClass().getResource("NurseView.fxml"));
@@ -97,14 +101,18 @@ public class LoginController {
 		        }
 		        else if (searchDirectory(patientsDir, id, password)) {
 		        	FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientView.fxml"));
-		            Parent root = loader.load();
-		    		PatientController patientController = loader.getController();
-		    		patientController.setPrimaryStage(primaryStage);
-		    		patientController.setPatientId(id);
-		    		
-				
-		    		primaryStage.getScene().setRoot(root);
-		            primaryStage.setTitle("Patient View");
+
+		        	loader.setControllerFactory(controllerClass -> {
+		        	    PatientController patientController = new PatientController();
+		        	    patientController.setPrimaryStage(primaryStage);
+		        	    patientController.setPatientId(id);
+		        	    return patientController;
+		        	});
+
+		        	Parent root = loader.load();
+
+		        	primaryStage.getScene().setRoot(root);
+		        	primaryStage.setTitle("Patient View");
 		        }
 		        else {
 		        	showErrorDialog("Invalid ID / Password");
