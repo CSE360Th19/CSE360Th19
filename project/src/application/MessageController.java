@@ -179,7 +179,7 @@ public class MessageController implements Initializable {
                 // save to senders first
                 File file = new File("user_info/"+role+"s/" + employeeId + "/messages/" + id + ".txt");
                 FileWriter writer = new FileWriter(file, true);
-                writer.write("Message: " + message + "\n");
+                writer.write("Message: " + getName(employeeId, role) + " - " + message + "\n");
                 writer.close();
                 System.out.println("Message sent successfully: " + file.getName());
                 
@@ -195,7 +195,7 @@ public class MessageController implements Initializable {
                 }
                 File file2 = new File("user_info/doctors/" + id + "/messages/" + employeeId + ".txt");
                 FileWriter writer2 = new FileWriter(file2, true);
-                writer2.write("Message: " + message + "\n");
+                writer2.write("Message: " + getName(employeeId, role) + " - " + message + "\n");
                 writer2.close();
                 System.out.println("Message sent successfully: " + file2.getName());
                 loadMessages();
@@ -214,7 +214,7 @@ public class MessageController implements Initializable {
                 // save to senders first
                 File file = new File("user_info/"+role+"s/" + employeeId + "/messages/" + id + ".txt");
                 FileWriter writer = new FileWriter(file, true);
-                writer.write("Message: " + message + "\n");
+                writer.write("Message: " + getName(employeeId, role) + " - " + message + "\n");
                 writer.close();
                 System.out.println("Message sent successfully: " + file.getName());
                 
@@ -230,7 +230,7 @@ public class MessageController implements Initializable {
                 }
                 File file2 = new File("user_info/patients/" + id + "/messages/" + employeeId + ".txt");
                 FileWriter writer2 = new FileWriter(file2, true);
-                writer2.write("Message: " + message + "\n");
+                writer2.write("Message: " + getName(employeeId, role) + " - " + message + "\n");
                 writer2.close();
                 System.out.println("Message sent successfully: " + file2.getName());
                 loadMessages();

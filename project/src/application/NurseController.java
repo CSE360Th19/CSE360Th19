@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -110,8 +111,7 @@ public class NurseController {
     void submitCheckin(ActionEvent event) {
         if (checkFieldsNotEmpty(idInput, nameInput, heightInput, weightInput, tempInput, bpInput)) {
             // All fields are filled
-            specificsSubmit.setDisable(false);
-            specificsClear.setDisable(false);
+            
 
             String patientId = idInput.getText();
             LocalDate currentDate = LocalDate.now();
@@ -121,6 +121,8 @@ public class NurseController {
             String filePath = "user_info/patients/" + patientId + "/appointments/" + formattedDate + ".txt";
 
             if (appointmentFileExists(filePath)) {
+            	specificsSubmit.setDisable(false);
+                specificsClear.setDisable(false);
                 ArrayList<String> data = new ArrayList<>();
                 data.add(nameInput.getText());
                 data.add(heightInput.getText());
@@ -156,6 +158,7 @@ public class NurseController {
             System.out.println("Specifics data: " + data);
             String patientId = idInput.getText();
             createCheckinDataToFile(patientId);
+            showAlert("Check In Successful", "Check in Data Successfully Saved", "Check in data has been added for patient ID: " + patientId + " for " + LocalDate.now().toString());
             
         } else {
         	showErrorDialog("Not all specifics fields are filled.");
@@ -245,8 +248,14 @@ public class NurseController {
             System.out.println("Error saving check-in data: " + e.getMessage());
         }
     }
-
-
+    
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
 
 }

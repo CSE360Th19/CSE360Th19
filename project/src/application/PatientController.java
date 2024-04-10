@@ -781,4 +781,5 @@ public void loadInsuranceInfo() {
         prescriptionTab.setItems(prescriptionList);
     }
     
+    
 }
